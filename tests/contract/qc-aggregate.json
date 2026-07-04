@@ -1,0 +1,72 @@
+{
+  "request": {
+    "timestamps": [
+      "2000-01-01T00:00:00",
+      "2000-01-02T00:00:00",
+      "2000-01-03T00:00:00",
+      "2000-01-04T00:00:00",
+      "2000-01-05T00:00:00",
+      "2000-01-06T00:00:00",
+      "2000-01-07T00:00:00",
+      "2000-01-08T00:00:00",
+      "2000-01-09T00:00:00",
+      "2000-01-10T00:00:00"
+    ],
+    "values": [
+      0.0,
+      5.0,
+      10.0,
+      20.0,
+      30.0,
+      null,
+      0.0,
+      8.0,
+      1.0,
+      0.0
+    ],
+    "intervalHours": 24.0,
+    "durationsHours": [
+      24.0,
+      48.0
+    ],
+    "applyCorrection": true,
+    "minYearCompleteness": 0.0
+  },
+  "response": {
+    "durations": [
+      {
+        "durationHours": 24.0,
+        "kIntervals": 1,
+        "correctionApplied": true,
+        "correctionFactor": 1.13,
+        "ams": [
+          {
+            "year": 2000,
+            "valueRaw": 30.0,
+            "value": 33.9,
+            "windowEnd": "2000-01-05T00:00:00",
+            "completeness": 0.025
+          }
+        ],
+        "yearsSkipped": []
+      },
+      {
+        "durationHours": 48.0,
+        "kIntervals": 2,
+        "correctionApplied": true,
+        "correctionFactor": 1.04,
+        "ams": [
+          {
+            "year": 2000,
+            "valueRaw": 50.0,
+            "value": 52.0,
+            "windowEnd": "2000-01-05T00:00:00",
+            "completeness": 0.025
+          }
+        ],
+        "yearsSkipped": []
+      }
+    ],
+    "engineVersion": "0.1.0"
+  }
+}

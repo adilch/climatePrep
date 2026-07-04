@@ -15,6 +15,13 @@
       "when": 1783180634409,
       "tag": "0001_cuddly_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783184191192,
+      "tag": "0002_fast_sue_storm",
+      "breakpoints": true
     }
   ]
 }

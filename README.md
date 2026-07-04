@@ -11,11 +11,16 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M1 (Data acquisition) complete.** Station finder (map + ranked
-> candidates by distance/record/elevation), pre-pull availability viz
-> (timeline + missing-data heatmap), cached/rate-limited ECCC pulls with
-> append-only `data_pulls` provenance and OGL attribution. QA/QC (M2),
-> PFA/IDF (M3), and reporting (M4 → MVP ship) follow.
+> **Status: M2 (QA/QC & preprocessing) complete.** Engine (Python 0.1.0) now
+> runs Mann-Kendall + Sen, Pettitt, and SNHT (golden-valued against
+> pymannkendall/pyhomogeneity), AMS aggregation (24/48/72 h) with the
+> WMO-1045/Weiss fixed→true interval correction (toggleable, factors logged),
+> and normal-ratio/IDW/regression infilling with per-point neighbour logs.
+> QC runs persist as `analyses`/`analysis_results` with input hashes + engine
+> and app versions; Zod↔pydantic contract parity is tested in CI on shared
+> fixtures. M1 delivered the station finder, availability viz, and cached
+> ECCC pulls with append-only `data_pulls` provenance. PFA/IDF (M3) and
+> reporting (M4 → MVP ship) follow.
 
 ---
 

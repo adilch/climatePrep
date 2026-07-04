@@ -38,6 +38,10 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+from .qc_routes import router as qc_router  # noqa: E402
+
+app.include_router(qc_router)
+
 
 @app.get("/health")
 def health() -> dict:

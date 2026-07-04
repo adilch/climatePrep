@@ -1,0 +1,88 @@
+{
+  "request": {
+    "dates": [
+      "2000-01-01",
+      "2000-01-02",
+      "2000-01-03",
+      "2000-01-04",
+      "2000-01-05",
+      "2000-01-06",
+      "2000-01-07",
+      "2000-01-08",
+      "2000-01-09",
+      "2000-01-10"
+    ],
+    "target": [
+      10.0,
+      20.0,
+      30.0,
+      40.0,
+      null,
+      25.0,
+      25.0,
+      25.0,
+      25.0,
+      25.0
+    ],
+    "neighbours": [
+      {
+        "id": "A",
+        "name": "Alpha",
+        "distanceKm": 10.0,
+        "values": [
+          50.0,
+          50.0,
+          50.0,
+          50.0,
+          60.0,
+          50.0,
+          50.0,
+          40.0,
+          50.0,
+          50.0
+        ]
+      }
+    ],
+    "method": "normal_ratio"
+  },
+  "response": {
+    "filledValues": [
+      10.0,
+      20.0,
+      30.0,
+      40.0,
+      30.0,
+      25.0,
+      25.0,
+      25.0,
+      25.0,
+      25.0
+    ],
+    "filledPoints": [
+      {
+        "index": 4,
+        "date": "2000-01-05",
+        "value": 30.0,
+        "method": "normal_ratio",
+        "neighbours": [
+          {
+            "id": "A",
+            "name": "Alpha",
+            "value": 60.0,
+            "ratio": 0.5
+          }
+        ],
+        "params": {
+          "targetNormal": 25.0
+        }
+      }
+    ],
+    "unfillable": [],
+    "method": "normal_ratio",
+    "stats": {
+      "nMissing": 1,
+      "nFilled": 1
+    },
+    "engineVersion": "0.1.0"
+  }
+}

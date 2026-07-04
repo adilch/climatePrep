@@ -1,0 +1,62 @@
+{
+  "request": {
+    "series": [
+      432.4,
+      495.6,
+      368.6,
+      567.3,
+      523.1,
+      468.5,
+      468.5,
+      506.6,
+      473.5,
+      477.2,
+      535.2,
+      524.1,
+      490.6,
+      490.5,
+      506.5,
+      461.2,
+      475.0,
+      533.3,
+      493.8,
+      420.3
+    ],
+    "alpha": 0.05,
+    "mcSamples": 1000,
+    "seed": 42
+  },
+  "response": {
+    "n": 20,
+    "alpha": 0.05,
+    "mannKendall": {
+      "trend": "no_trend",
+      "significant": false,
+      "pValue": 0.8455743853825337,
+      "z": 0.19476824194835865,
+      "s": 7.0,
+      "varS": 949.0,
+      "tau": 0.03684210526315789,
+      "senSlope": 0.5621212121212111,
+      "senIntercept": 485.2098484848485
+    },
+    "pettitt": {
+      "homogeneous": true,
+      "changePointIndex": 2,
+      "pValue": 1.0,
+      "statistic": 29.0,
+      "meanBefore": 432.2,
+      "meanAfter": 495.0117647058824
+    },
+    "snht": {
+      "homogeneous": true,
+      "changePointIndex": 2,
+      "pValue": 0.195,
+      "statistic": 5.072227767063561,
+      "meanBefore": 432.2,
+      "meanAfter": 495.0117647058824
+    },
+    "seed": 42,
+    "engineVersion": "0.1.0"
+  }
+}

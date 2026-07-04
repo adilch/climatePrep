@@ -1,0 +1,7 @@
+# Test/dev-only dependencies. NOT shipped with the engine.
+# pymannkendall + pyhomogeneity are reference implementations used ONLY to
+# generate/refresh the golden values in tests/golden (spec §6: trend and
+# homogeneity tests must match reference implementations on canonical data).
+-r requirements.txt
+pymannkendall==1.4.3
+pyhomogeneity==1.1

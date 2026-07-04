@@ -61,6 +61,25 @@ export const pullStatus = pgEnum("pull_status", [
   "error",
 ]);
 
+export const analysisType = pgEnum("analysis_type", [
+  "qc",
+  "pfa",
+  "pmp",
+  "design_storm",
+  "wind",
+  "freeboard",
+  "snowmelt",
+  "regional",
+]);
+
+export const analysisStatus = pgEnum("analysis_status", [
+  "queued",
+  "running",
+  "done",
+  "stale",
+  "error",
+]);
+
 // --- Shared timestamp columns ------------------------------------------------
 
 const timestamps = {
@@ -236,8 +255,58 @@ export const dataPulls = pgTable(
   ],
 );
 
+/**
+ * Analyses — polymorphic across modules (spec §5.1). `input_hash` is the
+ * deterministic hash of inputs + upstream data_pull ids: it powers cache hits
+ * and staleness detection (upstream change → dependent analyses marked stale,
+ * never silently re-served — spec §2.4, §9).
+ */
+export const analyses = pgTable(
+  "analyses",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    projectId: uuid("project_id").references(() => projects.id, {
+      onDelete: "cascade",
+    }),
+    stationId: uuid("station_id").references(() => stations.id),
+    type: analysisType("type").notNull(),
+    name: text("name").notNull(),
+    status: analysisStatus("status").notNull().default("queued"),
+    inputs: jsonb("inputs").notNull(),
+    inputHash: text("input_hash").notNull(),
+    engineVersion: text("engine_version"),
+    appVersion: text("app_version").notNull(),
+    error: text("error"),
+    createdBy: uuid("created_by").references(() => users.id),
+    ...timestamps,
+  },
+  (t) => [
+    index("analyses_project_idx").on(t.projectId),
+    index("analyses_input_hash_idx").on(t.inputHash),
+  ],
+);
+
+export const analysisResults = pgTable(
+  "analysis_results",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    analysisId: uuid("analysis_id")
+      .notNull()
+      .references(() => analyses.id, { onDelete: "cascade" }),
+    results: jsonb("results").notNull(),
+    figures: jsonb("figures"), // [{name, blob_ref}]
+    seed: integer("seed"),
+    computedAt: timestamp("computed_at", { withTimezone: true }).notNull(),
+    engineVersion: text("engine_version").notNull(),
+    ...timestamps,
+  },
+  (t) => [index("analysis_results_analysis_idx").on(t.analysisId)],
+);
+
 export type Project = typeof projects.$inferSelect;
 export type NewProject = typeof projects.$inferInsert;
+export type Analysis = typeof analyses.$inferSelect;
+export type AnalysisResult = typeof analysisResults.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Station = typeof stations.$inferSelect;
 export type NewStation = typeof stations.$inferInsert;
