@@ -10,7 +10,7 @@ const TABS: { label: string; segment: string | null; live: boolean }[] = [
   { label: "Stations", segment: "stations", live: true },
   { label: "Data", segment: "data", live: true },
   { label: "QA/QC", segment: "qa", live: true },
-  { label: "Analyses", segment: "analyses", live: false },
+  { label: "Analyses", segment: "analyses", live: true },
   { label: "Compare", segment: "compare", live: false },
   { label: "Report", segment: "report", live: false },
 ];

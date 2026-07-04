@@ -3,6 +3,7 @@ import { z } from "zod";
 export * from "./provenance";
 export * from "./engine";
 export * from "./qc";
+export * from "./pfa";
 
 /**
  * Shared domain enums used by both the Drizzle schema and the UI/forms.

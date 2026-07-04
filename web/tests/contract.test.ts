@@ -6,6 +6,10 @@ import {
   AggregateResponse,
   InfillRequest,
   InfillResponse,
+  PdsRequest,
+  PdsResponse,
+  PfaRequest,
+  PfaResponse,
   TrendRequest,
   TrendResponse,
 } from "@climateprep/core-ts";
@@ -51,5 +55,31 @@ describe("Zod ↔ pydantic contract parity", () => {
     const res = InfillResponse.safeParse(f.response);
     expect(res.success).toBe(true);
     if (res.success) expect(res.data.filledPoints.length).toBeGreaterThan(0);
+  });
+
+  it("pfa fixture validates", () => {
+    const f = fixture("pfa.json");
+    expect(PfaRequest.safeParse(f.request).success).toBe(true);
+    const res = PfaResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      expect(res.data.durations).toHaveLength(2);
+      expect(res.data.idf.distribution).toBe("gumbel");
+      // IDF intensities must decrease with duration at fixed T (physical sanity).
+      const t100 = res.data.idf.returnPeriods.indexOf(100);
+      const i24 = res.data.idf.cells[0][t100]?.intensity ?? 0;
+      const i48 = res.data.idf.cells[1][t100]?.intensity ?? 0;
+      expect(i24).toBeGreaterThan(i48);
+      // Bootstrap CIs present (seeded)
+      expect(res.data.durations[0].fits[0].quantiles[0].ciLower).not.toBeNull();
+    }
+  });
+
+  it("pfa-pds fixture validates", () => {
+    const f = fixture("pfa-pds.json");
+    expect(PdsRequest.safeParse(f.request).success).toBe(true);
+    const res = PdsResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) expect(res.data.events.length).toBe(2);
   });
 });

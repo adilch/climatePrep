@@ -1,6 +1,7 @@
 import {
   AggregateResponse,
   InfillResponse,
+  PfaResponse,
   TrendResponse,
 } from "@climateprep/core-ts";
 
@@ -35,4 +36,8 @@ export async function engineAggregate(body: unknown): Promise<AggregateResponse>
 
 export async function engineInfill(body: unknown): Promise<InfillResponse> {
   return InfillResponse.parse(await post("/api/engine/qc/infill", body));
+}
+
+export async function enginePfa(body: unknown): Promise<PfaResponse> {
+  return PfaResponse.parse(await post("/api/engine/pfa", body));
 }

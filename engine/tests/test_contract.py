@@ -8,6 +8,12 @@ from pathlib import Path
 
 import pytest
 
+from app.pfa_models import (
+    PdsRequest,
+    PdsResponse,
+    PfaRequest,
+    PfaResponse,
+)
 from app.qc_models import (
     AggregateRequest,
     AggregateResponse,
@@ -23,6 +29,8 @@ CASES = [
     ("qc-trend.json", TrendRequest, TrendResponse),
     ("qc-aggregate.json", AggregateRequest, AggregateResponse),
     ("qc-infill.json", InfillRequest, InfillResponse),
+    ("pfa.json", PfaRequest, PfaResponse),
+    ("pfa-pds.json", PdsRequest, PdsResponse),
 ]
 
 

@@ -6,11 +6,11 @@ machinery) so the two can later merge into one shared package with zero
 behavioural drift (spec §0). Do not reinvent the distributions here — mirror
 the WSC implementation (github.com/adilch/WSCprep, ffa-service/app/ffa.py).
 
-M2 adds the QC numerics (trend/homogeneity, aggregation, infilling).
-The frequency-analysis core lands in M3.
+M2 added the QC numerics (trend/homogeneity, aggregation, infilling).
+M3 adds the frequency-analysis core (WSC mirror), PDS extraction, and IDF.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 def engine_version() -> str:

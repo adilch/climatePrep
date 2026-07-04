@@ -11,16 +11,19 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M2 (QA/QC & preprocessing) complete.** Engine (Python 0.1.0) now
-> runs Mann-Kendall + Sen, Pettitt, and SNHT (golden-valued against
-> pymannkendall/pyhomogeneity), AMS aggregation (24/48/72 h) with the
-> WMO-1045/Weiss fixed→true interval correction (toggleable, factors logged),
-> and normal-ratio/IDW/regression infilling with per-point neighbour logs.
-> QC runs persist as `analyses`/`analysis_results` with input hashes + engine
-> and app versions; Zod↔pydantic contract parity is tested in CI on shared
-> fixtures. M1 delivered the station finder, availability viz, and cached
-> ECCC pulls with append-only `data_pulls` provenance. PFA/IDF (M3) and
-> reporting (M4 → MVP ship) follow.
+> **Status: M3 (PFA + IDF) complete.** Engine 0.2.0 carries the
+> frequency-analysis core mirrored from the WSC engine (lmoments3
+> Gumbel/GEV/GLO/PE3/LP3, L-moments/MOM/MLE, KS/AD/PPCC + AIC/BIC with the
+> LP3 Jacobian correction, seeded bootstrap CIs to T=10,000 yr) — golden-valued
+> against closed-form Gumbel L-moment estimators and pinned regression values,
+> plus PDS/POT extraction and multi-duration IDF assembly (Gumbel family by
+> default to match ECCC's published-IDF method). The Analyses tab fits a QC
+> AMS, renders Plotly frequency plots with CI bands, the IDF chart overlaid on
+> the ECCC Engineering Climate Datasets published IDF (v3.20, auto-fetched +
+> parsed + blob-cached per province), and the L-moment ratio diagram.
+> Earlier: M2 QA/QC (trend/homogeneity goldens, interval-corrected AMS,
+> infilling), M1 data acquisition (station finder, availability viz,
+> provenance-stamped pulls). Reporting (M4 → MVP ship) is next.
 
 ---
 

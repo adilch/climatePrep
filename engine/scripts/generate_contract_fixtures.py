@@ -58,6 +58,46 @@ FIXTURES = {
             "method": "normal_ratio",
         },
     ),
+    "pfa": (
+        "/api/engine/pfa",
+        {
+            "durations": [
+                {
+                    "durationHours": 24.0,
+                    "series": [
+                        {"year": 1990 + i, "value": v}
+                        for i, v in enumerate(
+                            [13.7, 22.4, 21.0, 27.0, 48.7, 39.0, 39.5, 37.9, 14.9, 28.5,
+                             34.9, 23.1, 21.3, 19.2, 25.8, 15.5, 28.1, 17.7, 21.0, 32.3]
+                        )
+                    ],
+                },
+                {
+                    "durationHours": 48.0,
+                    "series": [
+                        {"year": 1990 + i, "value": v * 1.35}
+                        for i, v in enumerate(
+                            [13.7, 22.4, 21.0, 27.0, 48.7, 39.0, 39.5, 37.9, 14.9, 28.5,
+                             34.9, 23.1, 21.3, 19.2, 25.8, 15.5, 28.1, 17.7, 21.0, 32.3]
+                        )
+                    ],
+                },
+            ],
+            "distributions": ["gumbel", "gev"],
+            "returnPeriods": [2, 10, 100, 1000],
+            "bootstrap": {"n": 200, "ci": 0.9, "seed": 42},
+            "idfDistribution": "gumbel",
+        },
+    ),
+    "pfa-pds": (
+        "/api/engine/pfa/pds",
+        {
+            "timestamps": [f"2000-01-{d:02d}T00:00:00" for d in range(1, 31)],
+            "values": [0.0] * 10 + [25.0] + [0.0] * 9 + [30.0] + [0.0] * 9,
+            "threshold": 20.0,
+            "minSeparationIntervals": 7,
+        },
+    ),
 }
 
 
