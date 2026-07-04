@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+web/.next/
+web/out/
+web/build/
+web/next-env.d.ts
+
+# Production
+dist/
+build/
+
+# Local data (PGlite, Blob stub, caches)
+.storage/
+*.pglite
+pgdata/
+
+# Python
+engine/.venv/
+packages/core-engine/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Env
+.env
+.env*.local
+.env.local
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+.playwright/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Vercel
+.vercel

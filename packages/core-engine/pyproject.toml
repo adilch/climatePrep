@@ -1,0 +1,16 @@
+[project]
+name = "climateprep-core-engine"
+version = "0.0.0"
+description = "climatePrep numerical core — frequency-analysis distributions, L-moments, bootstrap, GOF. Mirrors the WSC FFA engine for zero-drift merge (spec §0)."
+requires-python = ">=3.12"
+dependencies = [
+    # M0: none (pure version stub). M3 adds numpy, scipy, lmoments3, pandas,
+    # statsmodels — pinned to match the WSC engine (see spec §3.2, §7).
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/core_engine"]

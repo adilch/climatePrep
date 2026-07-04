@@ -1,0 +1,26 @@
+{
+  "name": "climateprep",
+  "version": "0.0.0",
+  "private": true,
+  "description": "climatePrep — Canadian water-resources meteorology & dam-safety analysis (ECCC/MSC data, precipitation frequency, IDF, reporting).",
+  "workspaces": [
+    "web",
+    "packages/core-ts",
+    "packages/ui"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace web",
+    "build": "npm run build --workspace web",
+    "start": "npm run start --workspace web",
+    "lint": "npm run lint --workspace web",
+    "typecheck": "npm run typecheck --workspace web",
+    "test": "npm run test --workspace web",
+    "db:generate": "npm run db:generate --workspace web",
+    "db:migrate": "npm run db:migrate --workspace web",
+    "db:seed": "npm run db:seed --workspace web",
+    "engine:dev": "python -m uvicorn app.main:app --reload --port 8000 --app-dir engine"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

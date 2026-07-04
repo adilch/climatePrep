@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build --workspace web",
+  "installCommand": "npm install",
+  "comment": "M0 deploys the Next.js web app. The Python compute engine runs as a SEPARATE service (local FastAPI now; a standalone service or a second Vercel project later) behind the §3.5 contract, reached via ENGINE_URL. When the engine is co-located as Vercel Python functions, add a top-level /api/*.py directory plus a `functions` block here setting the python runtime, `maxDuration` (max the plan allows), memory, and enabling Fluid Compute (spec §3.2, §3.6, §8)."
+}

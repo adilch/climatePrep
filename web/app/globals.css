@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/*
+ * climatePrep design system (spec §4): professional/technical, data-dense but
+ * calm and print-friendly. Neutral slate base + a single teal accent
+ * (water-appropriate). Semantic: green=ok, amber=flagged, red=error/stale.
+ * Light theme only for now — reports must look right on white.
+ */
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a; /* slate-900 */
+  --muted: #f1f5f9; /* slate-100 */
+  --muted-foreground: #64748b; /* slate-500 */
+  --border: #e2e8f0; /* slate-200 */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  /* Accent: deep teal */
+  --accent: #0f766e; /* teal-700 */
+  --accent-foreground: #ffffff;
+
+  /* Semantic */
+  --ok: #15803d; /* green-700 */
+  --flag: #b45309; /* amber-700 */
+  --error: #b91c1c; /* red-700 */
+
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ok: var(--ok);
+  --color-flag: var(--flag);
+  --color-error: var(--error);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Tabular figures for all numeric tables (spec §4). */
+table,
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mono for parameters, IDs, and code-like values. */
+.font-mono,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono), ui-monospace, "JetBrains Mono", monospace;
+}

@@ -1,0 +1,142 @@
+# climatePrep
+
+A web application for Canadian water-resources engineers to acquire ECCC/MSC
+climate data and run the meteorological analyses required for **Dam Safety
+Reviews (DSR)** — precipitation frequency, IDF, PMP, design storms, extreme
+wind, wave/freeboard, and snowmelt — with a defensible, reproducible audit
+trail suitable for P.Eng.-stamped reports.
+
+See [`HydroClime-SPEC.md`](HydroClime-SPEC.md) for the full specification. The
+numerical core mirrors the WSC flood-frequency engine
+([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
+with zero behavioural drift.
+
+> **Status: M0 (Foundation).** Runnable skeleton — auth, project CRUD, app
+> shell, a live Python compute engine, and CI. Data acquisition (M1), QA/QC
+> (M2), PFA/IDF (M3), and reporting (M4 → MVP ship) follow.
+
+---
+
+## Architecture (M0)
+
+| Layer | Tech | Notes |
+|---|---|---|
+| Web | Next.js 16 (App Router) · React 19 · Tailwind 4 · shadcn-style UI | `web/` |
+| Data | Drizzle ORM · **PGlite** (embedded Postgres, local) | swaps to Neon/Vercel Postgres on deploy, same SQL |
+| Auth | Auth.js v5 (dev Credentials + JWT) | real OAuth/email providers slot in later |
+| Compute engine | FastAPI (Python 3.12) · numpy/scipy/lmoments3 (M3) | separate service behind a swappable HTTP contract (spec §3.5) |
+| Shared packages | `packages/core-ts` (Zod + provenance) · `packages/ui` · `packages/core-engine` (Python core) | extraction-ready monorepo (npm workspaces) |
+| Storage stubs | local Blob (filesystem) · KV (in-memory) · queue (inline) | mirror Vercel Blob / Upstash KV / QStash surfaces |
+
+Local-first by design: no Docker, no cloud accounts required to run.
+
+---
+
+## Prerequisites
+
+- **Node.js ≥ 20** (tested on 24)
+- **Python 3.12** for the engine — the scientific stack (numpy/scipy/lmoments3,
+  added at M3) may lack wheels on newer Python. [`uv`](https://docs.astral.sh/uv/)
+  makes this a one-liner: `uv python install 3.12`.
+
+## Setup
+
+```bash
+# 1. Install JS workspace deps
+npm install
+
+# 2. Configure env (dev defaults are fine)
+cp web/.env.example web/.env.local
+#   AUTH_SECRET is required — generate one:
+#   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+
+# 3. Create + seed the local database (PGlite)
+npm run db:migrate --workspace web
+npm run db:seed --workspace web      # seeds dev@climateprep.local
+
+# 4. Set up the Python engine (isolated 3.12 venv)
+cd engine
+uv venv --python 3.12 .venv
+uv pip install --python .venv -r requirements.txt
+cd ..
+```
+
+## Run (two processes)
+
+```bash
+# Terminal 1 — compute engine (FastAPI on :8000)
+engine/.venv/Scripts/uvicorn app.main:app --reload --port 8000 --app-dir engine
+#   (macOS/Linux: engine/.venv/bin/uvicorn ...)
+
+# Terminal 2 — web app (Next.js on :3000)
+npm run dev --workspace web
+```
+
+Open http://localhost:3000 → you're bounced to `/signin`. The dev credentials
+are pre-filled (`dev@climateprep.local` / `climateprep`). After sign-in the
+top bar shows a live **engine `<version>`** badge (green) proving the Python
+service is reachable through the proxy.
+
+## Scripts
+
+| Command | What |
+|---|---|
+| `npm run dev` | Next dev server |
+| `npm run build` | Production build |
+| `npm run test --workspace web` | Vitest unit tests |
+| `npm run typecheck --workspace web` | `tsc --noEmit` |
+| `npm run lint --workspace web` | ESLint |
+| `npm run e2e --workspace web` | Playwright smoke tests (needs browsers: `npx playwright install`) |
+| `npm run db:generate --workspace web` | Generate a Drizzle migration from the schema |
+| `npm run db:migrate --workspace web` | Apply migrations to PGlite |
+| `npm run db:seed --workspace web` | Seed the dev user |
+| `engine` pytest | `engine/.venv/Scripts/python -m pytest engine` |
+
+---
+
+## Endpoint-verification checklist (do before relying on ECCC sources — M1)
+
+MSC has been migrating products; **verify these at build time** (spec §1.5, §8):
+
+- [ ] MSC GeoMet / Open Data OGC API – Features base: `https://api.weather.gc.ca`
+- [ ] Collection names: `climate-daily`, `climate-hourly`, `climate-monthly`,
+      `climate-normals`, and the AHCCD collections — confirm current IDs/paths.
+- [ ] MSC **Datamart** bulk paths under `https://dd.weather.gc.ca`.
+- [ ] Legacy bulk CSV fallback:
+      `climate.weather.gc.ca/climate_data/bulk_data_e.html` still available.
+- [ ] ECCC **Engineering Climate Datasets** (published IDF + annual-max rainfall).
+- [ ] **OGL – Canada** attribution retained on every pull and export.
+- [ ] Vercel function duration + Python package-size budget (if co-locating the
+      engine on Vercel).
+
+---
+
+## Deploy (Vercel — later)
+
+1. The web app deploys natively on Vercel (`vercel.json` sets the build).
+2. Swap local drivers for cloud: `DATABASE_URL` (Neon/Vercel Postgres),
+   Vercel Blob, Vercel KV, QStash — the `web/lib` interfaces are drop-in.
+3. Deploy the **engine** either as Vercel Python functions (top-level `/api/*.py`
+   + a `functions` block with the python runtime, `maxDuration`, memory, Fluid
+   Compute) or as a standalone service (Railway/Render/Fly) — point `ENGINE_URL`
+   at it. No frontend change (spec §3.2 escape hatch).
+4. Inject `APP_VERSION` from the git SHA/tag — it's part of provenance.
+
+See spec §8 for the full deployment runbook.
+
+---
+
+## Repo layout
+
+```
+climatePrep/
+├─ web/                    # Next.js app (UI, Node route handlers, db, auth, storage stubs)
+├─ engine/                 # FastAPI compute engine (Python 3.12)
+├─ packages/
+│  ├─ core-ts/             # shared Zod schemas + provenance model
+│  ├─ ui/                  # shared React components
+│  └─ core-engine/         # Python numerical core (mirrors WSC; M3)
+├─ drizzle/migrations/     # generated SQL migrations
+├─ .github/workflows/      # CI (web + engine)
+└─ HydroClime-SPEC.md      # single source of truth
+```
