@@ -1,11 +1,14 @@
 import {
   boolean,
   doublePrecision,
+  index,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 
@@ -34,6 +37,28 @@ export const cdaConsequenceCategory = pgEnum("cda_consequence_category", [
   "high",
   "very_high",
   "extreme",
+]);
+
+export const dataSource = pgEnum("data_source", [
+  "msc_geomet",
+  "datamart",
+  "bulk_csv",
+  "ahccd",
+  "eng_climate",
+]);
+
+export const stationRole = pgEnum("station_role", [
+  "primary",
+  "supporting",
+  "wind",
+  "comparison",
+]);
+
+export const pullStatus = pgEnum("pull_status", [
+  "pending",
+  "running",
+  "complete",
+  "error",
 ]);
 
 // --- Shared timestamp columns ------------------------------------------------
@@ -108,6 +133,114 @@ export const sites = pgTable("sites", {
   ...timestamps,
 });
 
+/**
+ * Station catalog + cached metadata (spec §5.1). Seeded from the GeoMet
+ * `climate-stations` collection (refreshable). Coordinates come from the
+ * GeoJSON geometry (decimal degrees) — the raw LATITUDE/LONGITUDE properties
+ * are scaled integers and must not be used directly.
+ */
+export const stations = pgTable(
+  "stations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    source: dataSource("source").notNull().default("msc_geomet"),
+    /** GeoMet numeric STN_ID — also the legacy bulk-CSV `stationID`. */
+    stnId: integer("stn_id"),
+    climateId: text("climate_id").notNull(),
+    wmoId: text("wmo_id"),
+    tcId: text("tc_id"),
+    stationName: text("station_name").notNull(),
+    province: text("province"),
+    latitude: doublePrecision("latitude").notNull(),
+    longitude: doublePrecision("longitude").notNull(),
+    elevationM: doublePrecision("elevation_m"),
+    firstYear: integer("first_year"),
+    lastYear: integer("last_year"),
+    recordLengthYears: integer("record_length_years"),
+    /** Per-collection availability: {daily:{first,last}, hourly:{...}, monthly:{...}, normals:bool} */
+    availableCollections: jsonb("available_collections"),
+    rawMetadata: jsonb("raw_metadata"),
+    catalogUpdatedAt: timestamp("catalog_updated_at", { withTimezone: true }),
+    ...timestamps,
+  },
+  (t) => [
+    uniqueIndex("stations_source_climate_id_idx").on(t.source, t.climateId),
+    // Supports the lat/lon window scan used by spatial ranking (spec §5.1).
+    index("stations_lat_lon_idx").on(t.latitude, t.longitude),
+    index("stations_province_idx").on(t.province),
+  ],
+);
+
+/** Join: a project may use several stations in different roles (spec §5.1). */
+export const projectStations = pgTable(
+  "project_stations",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    stationId: uuid("station_id")
+      .notNull()
+      .references(() => stations.id, { onDelete: "cascade" }),
+    role: stationRole("role").notNull().default("primary"),
+    distanceKm: doublePrecision("distance_km"),
+    elevationDiffM: doublePrecision("elevation_diff_m"),
+    ...timestamps,
+  },
+  (t) => [
+    uniqueIndex("project_stations_unique_idx").on(
+      t.projectId,
+      t.stationId,
+      t.role,
+    ),
+  ],
+);
+
+/**
+ * Provenance of every ingestion (spec §5.1). Append-only: rows are NEVER
+ * deleted or updated after completion — the provenance appendix in exports is
+ * generated from this chain (spec §5.2).
+ */
+export const dataPulls = pgTable(
+  "data_pulls",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    projectId: uuid("project_id").references(() => projects.id, {
+      onDelete: "set null",
+    }),
+    stationId: uuid("station_id")
+      .notNull()
+      .references(() => stations.id),
+    source: dataSource("source").notNull(),
+    endpointUrl: text("endpoint_url").notNull(),
+    collection: text("collection").notNull(),
+    periodStart: text("period_start"),
+    periodEnd: text("period_end"),
+    requestedAt: timestamp("requested_at", { withTimezone: true }).notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    rowCount: integer("row_count"),
+    status: pullStatus("status").notNull().default("pending"),
+    error: text("error"),
+    cacheKey: text("cache_key"),
+    /** Blob key of the raw series: raw/{climate_id}/{collection}/{period}.json */
+    blobRef: text("blob_ref"),
+    params: jsonb("params"),
+    oglAttribution: boolean("ogl_attribution").notNull().default(true),
+    createdBy: uuid("created_by").references(() => users.id),
+    ...timestamps,
+  },
+  (t) => [
+    index("data_pulls_project_idx").on(t.projectId),
+    index("data_pulls_station_idx").on(t.stationId),
+    index("data_pulls_cache_key_idx").on(t.cacheKey),
+  ],
+);
+
 export type Project = typeof projects.$inferSelect;
 export type NewProject = typeof projects.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type Station = typeof stations.$inferSelect;
+export type NewStation = typeof stations.$inferInsert;
+export type ProjectStation = typeof projectStations.$inferSelect;
+export type DataPull = typeof dataPulls.$inferSelect;
+export type NewDataPull = typeof dataPulls.$inferInsert;

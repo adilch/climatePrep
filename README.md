@@ -11,9 +11,11 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M0 (Foundation).** Runnable skeleton — auth, project CRUD, app
-> shell, a live Python compute engine, and CI. Data acquisition (M1), QA/QC
-> (M2), PFA/IDF (M3), and reporting (M4 → MVP ship) follow.
+> **Status: M1 (Data acquisition) complete.** Station finder (map + ranked
+> candidates by distance/record/elevation), pre-pull availability viz
+> (timeline + missing-data heatmap), cached/rate-limited ECCC pulls with
+> append-only `data_pulls` provenance and OGL attribution. QA/QC (M2),
+> PFA/IDF (M3), and reporting (M4 → MVP ship) follow.
 
 ---
 
@@ -52,7 +54,9 @@ cp web/.env.example web/.env.local
 
 # 3. Create + seed the local database (PGlite)
 npm run db:migrate --workspace web
-npm run db:seed --workspace web      # seeds dev@climateprep.local
+npm run db:seed --workspace web             # seeds dev@climateprep.local
+npm run db:seed-stations --workspace web    # ECCC station catalog (~8 500, one request)
+#   (optionally: -- --province AB for a faster provincial seed)
 
 # 4. Set up the Python engine (isolated 3.12 venv)
 cd engine
@@ -90,24 +94,40 @@ service is reachable through the proxy.
 | `npm run db:generate --workspace web` | Generate a Drizzle migration from the schema |
 | `npm run db:migrate --workspace web` | Apply migrations to PGlite |
 | `npm run db:seed --workspace web` | Seed the dev user |
+| `npm run db:seed-stations --workspace web` | Seed/refresh the ECCC station catalog |
 | `engine` pytest | `engine/.venv/Scripts/python -m pytest engine` |
 
 ---
 
-## Endpoint-verification checklist (do before relying on ECCC sources — M1)
+## Endpoint-verification checklist (verified 2026-07-04)
 
-MSC has been migrating products; **verify these at build time** (spec §1.5, §8):
+MSC has been migrating products; re-verify before major releases (spec §1.5, §8):
 
-- [ ] MSC GeoMet / Open Data OGC API – Features base: `https://api.weather.gc.ca`
-- [ ] Collection names: `climate-daily`, `climate-hourly`, `climate-monthly`,
-      `climate-normals`, and the AHCCD collections — confirm current IDs/paths.
-- [ ] MSC **Datamart** bulk paths under `https://dd.weather.gc.ca`.
-- [ ] Legacy bulk CSV fallback:
-      `climate.weather.gc.ca/climate_data/bulk_data_e.html` still available.
-- [ ] ECCC **Engineering Climate Datasets** (published IDF + annual-max rainfall).
-- [ ] **OGL – Canada** attribution retained on every pull and export.
-- [ ] Vercel function duration + Python package-size budget (if co-locating the
-      engine on Vercel).
+- [x] **MSC GeoMet OGC API – Features** base `https://api.weather.gc.ca` — live.
+      Confirmed collections: `climate-stations`, `climate-daily`,
+      `climate-hourly`, `climate-monthly`, `climate-normals`, `ahccd-stations`,
+      `ahccd-annual`, `ahccd-seasonal`, `ahccd-monthly`, `ahccd-trends`.
+- [x] Query features confirmed: property filters (`CLIMATE_IDENTIFIER`,
+      `PROV_STATE_TERR_CODE`), `datetime` ranges, `bbox`, `sortby`,
+      `limit` up to 10 000 + `offset` paging.
+      Gotchas: `climate-stations` properties `LATITUDE`/`LONGITUDE` are scaled
+      integers — use the GeoJSON geometry (decimal degrees); `ELEVATION` is a
+      string (m); AHCCD collections use bilingual snake_case field names
+      (`total_precip__precip_totale`), unlike the UPPER_CASE climate-* fields.
+- [x] **MSC Datamart** `https://dd.weather.gc.ca` — **restructured**: date-based
+      directories (`YYYYMMDD/`, `today/`) for real-time products only; the old
+      static `climate/` archive tree is gone. **Not suitable for the climate
+      archive** — use GeoMet (primary) and legacy bulk CSV (fallback).
+- [x] **Legacy bulk CSV** `climate.weather.gc.ca/climate_data/bulk_data_e.html`
+      — live (HTTP 200, CSV). Note: takes the numeric `stationID` (= GeoMet
+      `STN_ID`), not the climate identifier.
+- [x] **Engineering Climate Datasets** (published IDF) —
+      `https://collaboration.cmc.ec.gc.ca/cmc/climate/Engineer_Climate/IDF/`
+      (per-province files; ingested in M3 for the comparison panel).
+- [x] **OGL – Canada** attribution stored on every `data_pulls` row and
+      required in all exports.
+- [ ] Vercel function duration + Python package-size budget (verify when the
+      engine is co-located on Vercel — currently a separate service).
 
 ---
 
