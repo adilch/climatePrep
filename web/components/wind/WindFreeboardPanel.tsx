@@ -43,7 +43,10 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
   const [windSource, setWindSource] = useState<"hourly_wind" | "daily_gust">("hourly_wind");
 
   // ------------------------- freeboard state -----------------------------
-  const [drawing, setDrawing] = useState(false);
+  // Drawing uses a LOCAL draft (instant feedback, no per-click server calls);
+  // the polygon is persisted once, on "Finish & save" (≥3 vertices).
+  const [draft, setDraft] = useState<[number, number][] | null>(null);
+  const drawing = draft !== null;
   const [directionDeg, setDirectionDeg] = useState("90");
   const [uLand, setULand] = useState("20");
   const [depth, setDepth] = useState("10");
@@ -93,9 +96,15 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
           reservoirPolygon: next,
         }),
       });
-      if (!res.ok) throw new Error("polygon save failed");
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error ?? `polygon save failed (${res.status})`);
+      }
     },
-    onSuccess: () => qcClient.invalidateQueries({ queryKey: ["site", projectId] }),
+    onSuccess: () => {
+      setDraft(null);
+      qcClient.invalidateQueries({ queryKey: ["site", projectId] });
+    },
   });
 
   const runWind = useMutation({
@@ -199,23 +208,50 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Reservoir polygon &amp; freeboard</CardTitle>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setDrawing(!drawing)}
-              disabled={!site}
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              {drawing ? "Stop drawing" : "Draw polygon"}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => savePolygon.mutate(null)}
-              disabled={!polygon.length}
-            >
-              <Trash2 className="h-3.5 w-3.5" /> Clear
-            </Button>
+            {!drawing ? (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setDraft([])}
+                  disabled={!site}
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                  {polygon.length >= 3 ? "Redraw polygon" : "Draw polygon"}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => savePolygon.mutate(null)}
+                  disabled={!polygon.length || savePolygon.isPending}
+                >
+                  <Trash2 className="h-3.5 w-3.5" /> Clear
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  onClick={() => savePolygon.mutate(draft)}
+                  disabled={(draft?.length ?? 0) < 3 || savePolygon.isPending}
+                >
+                  {savePolygon.isPending
+                    ? "Saving…"
+                    : `Finish & save (${draft?.length ?? 0} pts)`}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setDraft((d) => (d && d.length ? d.slice(0, -1) : d))}
+                  disabled={(draft?.length ?? 0) === 0}
+                >
+                  Undo point
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => setDraft(null)}>
+                  Cancel
+                </Button>
+              </>
+            )}
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -227,16 +263,21 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
             <>
               <p className="text-xs text-muted-foreground">
                 {drawing
-                  ? "Click the map to add vertices along the reservoir shoreline (≥3). Vertices save automatically."
+                  ? `Click the map to add vertices along the reservoir shoreline — ${draft!.length} placed, ${Math.max(0, 3 - draft!.length)} more needed. Then "Finish & save".`
                   : polygon.length >= 3
                     ? `Reservoir polygon: ${polygon.length} vertices.`
                     : "Draw the reservoir outline to enable fetch computation."}
               </p>
+              {savePolygon.isError && (
+                <p className="text-xs text-error">
+                  {(savePolygon.error as Error).message}
+                </p>
+              )}
               <ReservoirMapLazy
                 site={site}
-                polygon={polygon}
+                polygon={draft ?? polygon}
                 drawing={drawing}
-                onAddVertex={(v) => savePolygon.mutate([...polygon, v])}
+                onAddVertex={(v) => setDraft((d) => [...(d ?? []), v])}
               />
 
               <div className="flex flex-wrap items-end gap-3">

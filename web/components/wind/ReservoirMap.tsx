@@ -1,6 +1,14 @@
 "use client";
 
-import { MapContainer, Marker, Polygon, TileLayer, Tooltip, useMapEvents } from "react-leaflet";
+import {
+  CircleMarker,
+  MapContainer,
+  Marker,
+  Polygon,
+  TileLayer,
+  Tooltip,
+  useMapEvents,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -51,7 +59,9 @@ export default function ReservoirMap({
     <MapContainer
       center={[site.latitude, site.longitude]}
       zoom={12}
-      className="h-[360px] w-full rounded-lg border border-border"
+      className={`h-[360px] w-full rounded-lg border border-border ${
+        drawing ? "cursor-crosshair [&_.leaflet-grab]:!cursor-crosshair [&_.leaflet-interactive]:!cursor-crosshair" : ""
+      }`}
       scrollWheelZoom
     >
       <TileLayer
@@ -65,9 +75,24 @@ export default function ReservoirMap({
       {polygon.length >= 2 && (
         <Polygon
           positions={polygon.map(([lon, lat]) => [lat, lon] as [number, number])}
-          pathOptions={{ color: "#0f766e", fillOpacity: 0.15, weight: 2 }}
+          pathOptions={{
+            color: "#0f766e",
+            fillOpacity: drawing ? 0.08 : 0.15,
+            weight: 2,
+            dashArray: drawing ? "6 4" : undefined,
+          }}
         />
       )}
+      {/* Vertex dots give instant feedback from the very first click. */}
+      {drawing &&
+        polygon.map(([lon, lat], i) => (
+          <CircleMarker
+            key={`${lon}-${lat}-${i}`}
+            center={[lat, lon]}
+            radius={4}
+            pathOptions={{ color: "#0f766e", fillColor: "#0f766e", fillOpacity: 1 }}
+          />
+        ))}
     </MapContainer>
   );
 }
