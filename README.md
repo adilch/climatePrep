@@ -11,7 +11,23 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M4 (Reporting & Export) complete — MVP feature-complete.**
+> **Status: M5 (PMP + design storms) complete — Phase 2 underway.**
+> Engine 0.3.0 adds **Hershfield statistical PMP** (WMO-1045 Chapter 4) with
+> the full adjustment chain — outlier (Figs 4.2/4.3), sample size (Fig 4.4),
+> Km(mean, duration) (Fig 4.1), fixed→true interval (Fig 4.5/Weiss), and
+> point→area (Fig 4.7) — every factor logged with its source, every factor
+> overridable, golden-tested against the manual's own Table 4.1 worked
+> example (two internal inconsistencies in the manual's 1-h column are
+> documented in the tests). Plus DAD tables, seasonal distribution, and
+> **design storms**: Chicago (Keifer-Chu, analytic IDF fit), alternating
+> block (nested, exact telescoping), SCS Type II, and the PMP hyetograph
+> (WMO-1045 Fig 4.8); model forcing exports as native SWMM .dat and HEC
+> paste-ready CSV. The Analyses tab now has PFA/PMP/Design-storm sub-modules.
+> Digitized figure curves are approximations anchored to the manual's worked
+> example — the UI carries the verification notice. Huff quartiles + AES
+> distributions and DSS export await verified tables (Phase-2 continuation).
+>
+> Earlier — **M4 (MVP)**:
 > One click produces the DSR-ready deliverables (spec K1–K6): a **.docx**
 > report section (methodology generated from the actual analysis parameters,
 > AMS/fits/quantile tables, embedded server-rendered matplotlib figures with

@@ -14,6 +14,12 @@ from app.pfa_models import (
     PfaRequest,
     PfaResponse,
 )
+from app.pmp_models import (
+    DesignStormRequest,
+    DesignStormResponse,
+    PmpRequest,
+    PmpResponse,
+)
 from app.qc_models import (
     AggregateRequest,
     AggregateResponse,
@@ -31,6 +37,8 @@ CASES = [
     ("qc-infill.json", InfillRequest, InfillResponse),
     ("pfa.json", PfaRequest, PfaResponse),
     ("pfa-pds.json", PdsRequest, PdsResponse),
+    ("pmp.json", PmpRequest, PmpResponse),
+    ("design-storm.json", DesignStormRequest, DesignStormResponse),
 ]
 
 

@@ -4,12 +4,16 @@ import { describe, expect, it } from "vitest";
 import {
   AggregateRequest,
   AggregateResponse,
+  DesignStormRequest,
+  DesignStormResponse,
   InfillRequest,
   InfillResponse,
   PdsRequest,
   PdsResponse,
   PfaRequest,
   PfaResponse,
+  PmpRequest,
+  PmpResponse,
   TrendRequest,
   TrendResponse,
 } from "@climateprep/core-ts";
@@ -81,5 +85,33 @@ describe("Zod ↔ pydantic contract parity", () => {
     const res = PdsResponse.safeParse(f.response);
     expect(res.success).toBe(true);
     if (res.success) expect(res.data.events.length).toBe(2);
+  });
+
+  it("pmp fixture validates (WMO-1045 worked example)", () => {
+    const f = fixture("pmp.json");
+    expect(PmpRequest.safeParse(f.request).success).toBe(true);
+    const res = PmpResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      // manual's chain: point PMP ≈ 500 mm, ×1.01 ≈ 505, ×0.90 ≈ 455
+      expect(res.data.pmpTrueIntervalMm).toBeGreaterThan(450);
+      expect(res.data.pmpTrueIntervalMm).toBeLessThan(560);
+      expect(res.data.steps.length).toBeGreaterThanOrEqual(8); // every factor logged
+      expect(res.data.digitizationNotice).toContain("WMO-1045");
+      expect(res.data.dad).not.toBeNull();
+    }
+  });
+
+  it("design-storm fixture validates", () => {
+    const f = fixture("design-storm.json");
+    expect(DesignStormRequest.safeParse(f.request).success).toBe(true);
+    const res = DesignStormResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      const h = res.data.hyetograph;
+      const sum = h.depthsMm.reduce((a, b) => a + b, 0);
+      expect(sum).toBeCloseTo(h.totalDepthMm, 3); // sums to correct depth
+      expect(h.depthsMm.length).toBe(24);
+    }
   });
 });

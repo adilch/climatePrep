@@ -1,4 +1,4 @@
-import { PfaTab } from "@/components/pfa/PfaTab";
+import { AnalysesTabs } from "@/components/analyses/AnalysesTabs";
 
 export default async function ProjectAnalysesPage({
   params,
@@ -6,5 +6,5 @@ export default async function ProjectAnalysesPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return <PfaTab projectId={id} />;
+  return <AnalysesTabs projectId={id} />;
 }

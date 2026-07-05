@@ -40,11 +40,13 @@ app.add_middleware(
 
 from .figures_routes import router as figures_router  # noqa: E402
 from .pfa_routes import router as pfa_router  # noqa: E402
+from .pmp_routes import router as pmp_router  # noqa: E402
 from .qc_routes import router as qc_router  # noqa: E402
 
 app.include_router(qc_router)
 app.include_router(pfa_router)
 app.include_router(figures_router)
+app.include_router(pmp_router)
 
 
 @app.get("/health")

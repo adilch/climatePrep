@@ -1,7 +1,9 @@
 import {
   AggregateResponse,
+  DesignStormResponse,
   InfillResponse,
   PfaResponse,
+  PmpResponse,
   TrendResponse,
 } from "@climateprep/core-ts";
 
@@ -40,4 +42,14 @@ export async function engineInfill(body: unknown): Promise<InfillResponse> {
 
 export async function enginePfa(body: unknown): Promise<PfaResponse> {
   return PfaResponse.parse(await post("/api/engine/pfa", body));
+}
+
+export async function enginePmp(body: unknown): Promise<PmpResponse> {
+  return PmpResponse.parse(await post("/api/engine/pmp", body));
+}
+
+export async function engineDesignStorm(
+  body: unknown,
+): Promise<DesignStormResponse> {
+  return DesignStormResponse.parse(await post("/api/engine/design-storm", body));
 }

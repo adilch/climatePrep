@@ -4,6 +4,8 @@ export * from "./provenance";
 export * from "./engine";
 export * from "./qc";
 export * from "./pfa";
+export * from "./pmp";
+export * from "./storms";
 
 /**
  * Shared domain enums used by both the Drizzle schema and the UI/forms.

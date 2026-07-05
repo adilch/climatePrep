@@ -98,6 +98,31 @@ FIXTURES = {
             "minSeparationIntervals": 7,
         },
     ),
+    # WMO-1045 Table 4.1 24-hour series (the golden worked example).
+    "pmp": (
+        "/api/engine/pmp",
+        {
+            "series": [62, 60, 57, 112, 67, 72, 62, 61, 57, 69, 72, 61, 62,
+                       82, 306, 47, 43, 78, 113, 134, 51, 72, 62, 53, 55],
+            "durationHours": 24.0,
+            "nObsUnits": 24,
+            "areaKm2": 500.0,
+            "dadAreasKm2": [25, 200, 500, 1000],
+        },
+    ),
+    "design-storm": (
+        "/api/engine/design-storm",
+        {
+            "pattern": "alt_block",
+            "dtHours": 1.0,
+            "durationHours": 24.0,
+            "peakRatio": 0.375,
+            "idf": {
+                "durationsHours": [1, 2, 6, 12, 24],
+                "intensitiesMmHr": [34.1, 22.5, 14.3, 8.5, 4.8],
+            },
+        },
+    ),
 }
 
 

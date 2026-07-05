@@ -1,0 +1,156 @@
+{
+  "request": {
+    "series": [
+      62,
+      60,
+      57,
+      112,
+      67,
+      72,
+      62,
+      61,
+      57,
+      69,
+      72,
+      61,
+      62,
+      82,
+      306,
+      47,
+      43,
+      78,
+      113,
+      134,
+      51,
+      72,
+      62,
+      53,
+      55
+    ],
+    "durationHours": 24.0,
+    "nObsUnits": 24,
+    "areaKm2": 500.0,
+    "dadAreasKm2": [
+      25,
+      200,
+      500,
+      1000
+    ]
+  },
+  "response": {
+    "durationHours": 24.0,
+    "n": 25,
+    "meanMm": 78.8,
+    "sdMm": 51.92,
+    "meanExclMaxMm": 69.33,
+    "sdExclMaxMm": 21.79,
+    "adjustedMeanMm": 72.42,
+    "adjustedSdMm": 26.31,
+    "km": 16.0,
+    "pmpPointMm": 493.3,
+    "pmpTrueIntervalMm": 498.3,
+    "pmpArealMm": 448.4,
+    "areaKm2": 500.0,
+    "maxObservedMm": 306.0,
+    "steps": [
+      {
+        "key": "stats",
+        "label": "X\u0304n / Sn from 25-year series",
+        "value": 78.8,
+        "source": "computed",
+        "note": "Sn = 51.92 mm; max observed = 306.0 mm"
+      },
+      {
+        "key": "fig42",
+        "label": "Mean adjustment for max observed (Fig 4.2)",
+        "value": 0.9099,
+        "source": "digitized Fig 4.2",
+        "note": "X\u0304n\u2212m/X\u0304n = 0.880"
+      },
+      {
+        "key": "fig43",
+        "label": "SD adjustment for max observed (Fig 4.3)",
+        "value": 0.4826,
+        "source": "digitized Fig 4.3",
+        "note": "Sn\u2212m/Sn = 0.420"
+      },
+      {
+        "key": "fig44_mean",
+        "label": "Mean adjustment for record length (Fig 4.4)",
+        "value": 1.01,
+        "source": "digitized Fig 4.4",
+        "note": "n = 25"
+      },
+      {
+        "key": "fig44_sd",
+        "label": "SD adjustment for record length (Fig 4.4)",
+        "value": 1.05,
+        "source": "digitized Fig 4.4",
+        "note": "n = 25"
+      },
+      {
+        "key": "adjusted_stats",
+        "label": "Adjusted X\u0304n / Sn",
+        "value": 72.42,
+        "source": "computed",
+        "note": "adjusted Sn = 26.31 mm"
+      },
+      {
+        "key": "km",
+        "label": "Km frequency factor (Fig 4.1)",
+        "value": 16.0,
+        "source": "digitized Fig 4.1",
+        "note": "adjusted mean 72.4 mm on the 24-h curve"
+      },
+      {
+        "key": "eq42",
+        "label": "Point PMP = X\u0304a + Km\u00b7Sa (Eq 4.2)",
+        "value": 493.3,
+        "source": "computed",
+        "note": ""
+      },
+      {
+        "key": "interval",
+        "label": "Fixed\u2192true interval factor (Fig 4.5, Weiss 1964)",
+        "value": 1.01,
+        "source": "Weiss table",
+        "note": "24 observational unit(s) per duration"
+      },
+      {
+        "key": "arf",
+        "label": "Area-reduction factor (Fig 4.7)",
+        "value": 0.9,
+        "source": "digitized Fig 4.7 \u2014 idealized western-US curves; develop site-specific curves per WMO-1045 \u00a74.5",
+        "note": "area 500 km\u00b2 on the 24-h curve"
+      }
+    ],
+    "dad": [
+      {
+        "areaKm2": 25.0,
+        "depthsMm": {
+          "24.0": 498.3
+        }
+      },
+      {
+        "areaKm2": 200.0,
+        "depthsMm": {
+          "24.0": 473.4
+        }
+      },
+      {
+        "areaKm2": 500.0,
+        "depthsMm": {
+          "24.0": 448.5
+        }
+      },
+      {
+        "areaKm2": 1000.0,
+        "depthsMm": {
+          "24.0": 438.5
+        }
+      }
+    ],
+    "digitizationNotice": "Km, outlier/sample-size adjustments and ARF use digitized WMO-1045 figures anchored to the manual's Table 4.1 worked example; values between anchors are approximate. Verify figure readings for production use, or supply overrides \u2014 every factor applied is listed in `steps`.",
+    "engineVersion": "0.3.0"
+  }
+}
