@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BASE_LAYOUT, OKABE_ITO, PlotlyLazy } from "@/components/pfa/PlotlyLazy";
-import type { ReservoirMapProps } from "./ReservoirMap";
+import type { FetchRay, ReservoirMapProps } from "./ReservoirMap";
 
 const ReservoirMapLazy = dynamic<ReservoirMapProps>(
   () => import("./ReservoirMap"),
@@ -47,6 +47,7 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
   // the polygon is persisted once, on "Finish & save" (≥3 vertices).
   const [draft, setDraft] = useState<[number, number][] | null>(null);
   const drawing = draft !== null;
+  const [showRays, setShowRays] = useState(true);
   const [directionDeg, setDirectionDeg] = useState("90");
   const [uLand, setULand] = useState("20");
   const [depth, setDepth] = useState("10");
@@ -83,6 +84,23 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
   const fbRows = analysesQuery.data?.analyses.filter((a) => a.analysis.type === "freeboard") ?? [];
   const latestWind = windRows[0] ?? null;
   const latestFb = fbRows[0] ?? null;
+
+  // Saville radials from the latest freeboard run, rendered on the map.
+  const fetchRays: FetchRay[] = (() => {
+    if (!latestFb || !showRays) return [];
+    const f = (latestFb.result.results as { fetchWave: FetchWaveResponse })
+      .fetchWave?.fetch as {
+      directionDeg: number;
+      radials: { angleDeg: number; fetchKm: number; weight: number }[];
+    } | undefined;
+    if (!f?.radials) return [];
+    return f.radials.map((r) => ({
+      bearingDeg: (f.directionDeg + r.angleDeg + 360) % 360,
+      km: r.fetchKm,
+      weight: r.weight,
+      central: Math.abs(r.angleDeg) < 1e-9,
+    }));
+  })();
 
   const savePolygon = useMutation({
     mutationFn: async (next: [number, number][] | null) => {
@@ -278,7 +296,20 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
                 polygon={draft ?? polygon}
                 drawing={drawing}
                 onAddVertex={(v) => setDraft((d) => [...(d ?? []), v])}
+                fetchRays={fetchRays}
               />
+              {latestFb && !drawing && (
+                <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    checked={showRays}
+                    onChange={(e) => setShowRays(e.target.checked)}
+                    className="h-3.5 w-3.5 accent-accent"
+                  />
+                  Show Saville fetch radials (from the latest run — central ray
+                  solid, side rays weighted by cos²α)
+                </label>
+              )}
 
               <div className="flex flex-wrap items-end gap-3">
                 <label className="block text-xs">
