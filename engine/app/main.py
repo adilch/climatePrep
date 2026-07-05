@@ -38,11 +38,13 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+from .figures_routes import router as figures_router  # noqa: E402
 from .pfa_routes import router as pfa_router  # noqa: E402
 from .qc_routes import router as qc_router  # noqa: E402
 
 app.include_router(qc_router)
 app.include_router(pfa_router)
+app.include_router(figures_router)
 
 
 @app.get("/health")

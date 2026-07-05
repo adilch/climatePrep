@@ -11,8 +11,8 @@ const TABS: { label: string; segment: string | null; live: boolean }[] = [
   { label: "Data", segment: "data", live: true },
   { label: "QA/QC", segment: "qa", live: true },
   { label: "Analyses", segment: "analyses", live: true },
-  { label: "Compare", segment: "compare", live: false },
-  { label: "Report", segment: "report", live: false },
+  { label: "Compare", segment: "compare", live: true },
+  { label: "Report", segment: "report", live: true },
 ];
 
 export function ProjectTabs({ projectId }: { projectId: string }) {

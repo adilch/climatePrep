@@ -80,6 +80,13 @@ export const analysisStatus = pgEnum("analysis_status", [
   "error",
 ]);
 
+export const reportFormat = pgEnum("report_format", [
+  "docx",
+  "pdf",
+  "xlsx",
+  "model_forcing",
+]);
+
 // --- Shared timestamp columns ------------------------------------------------
 
 const timestamps = {
@@ -303,10 +310,40 @@ export const analysisResults = pgTable(
   (t) => [index("analysis_results_analysis_idx").on(t.analysisId)],
 );
 
+/**
+ * Generated deliverables (spec §5.1 report_documents). The file itself lives
+ * in Blob (spec §5.4 exports/); this row carries what was generated, from
+ * which analysis, and under which app/engine versions.
+ */
+export const reportDocuments = pgTable(
+  "report_documents",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => projects.id, { onDelete: "cascade" }),
+    analysisId: uuid("analysis_id").references(() => analyses.id, {
+      onDelete: "set null",
+    }),
+    format: reportFormat("format").notNull(),
+    blobRef: text("blob_ref").notNull(),
+    fileName: text("file_name").notNull(),
+    byteSize: integer("byte_size"),
+    sections: jsonb("sections"),
+    generatedAt: timestamp("generated_at", { withTimezone: true }).notNull(),
+    appVersion: text("app_version").notNull(),
+    engineVersion: text("engine_version"),
+    createdBy: uuid("created_by").references(() => users.id),
+    ...timestamps,
+  },
+  (t) => [index("report_documents_project_idx").on(t.projectId)],
+);
+
 export type Project = typeof projects.$inferSelect;
 export type NewProject = typeof projects.$inferInsert;
 export type Analysis = typeof analyses.$inferSelect;
 export type AnalysisResult = typeof analysisResults.$inferSelect;
+export type ReportDocument = typeof reportDocuments.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type Station = typeof stations.$inferSelect;
 export type NewStation = typeof stations.$inferInsert;

@@ -11,19 +11,20 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M3 (PFA + IDF) complete.** Engine 0.2.0 carries the
-> frequency-analysis core mirrored from the WSC engine (lmoments3
-> Gumbel/GEV/GLO/PE3/LP3, L-moments/MOM/MLE, KS/AD/PPCC + AIC/BIC with the
-> LP3 Jacobian correction, seeded bootstrap CIs to T=10,000 yr) — golden-valued
-> against closed-form Gumbel L-moment estimators and pinned regression values,
-> plus PDS/POT extraction and multi-duration IDF assembly (Gumbel family by
-> default to match ECCC's published-IDF method). The Analyses tab fits a QC
-> AMS, renders Plotly frequency plots with CI bands, the IDF chart overlaid on
-> the ECCC Engineering Climate Datasets published IDF (v3.20, auto-fetched +
-> parsed + blob-cached per province), and the L-moment ratio diagram.
-> Earlier: M2 QA/QC (trend/homogeneity goldens, interval-corrected AMS,
-> infilling), M1 data acquisition (station finder, availability viz,
-> provenance-stamped pulls). Reporting (M4 → MVP ship) is next.
+> **Status: M4 (Reporting & Export) complete — MVP feature-complete.**
+> One click produces the DSR-ready deliverables (spec K1–K6): a **.docx**
+> report section (methodology generated from the actual analysis parameters,
+> AMS/fits/quantile tables, embedded server-rendered matplotlib figures with
+> numbered captions, ECCC comparison), a print-quality **.pdf** (same content
+> model, rendered via headless chromium), and an **.xlsx** workbook
+> (Raw / Calcs / Results / Comparison / Provenance / Attribution). Every
+> export auto-includes the provenance appendix (station IDs, pull endpoints +
+> timestamps, input hashes, seed, engine + app versions), OGL–Canada
+> attribution, and the professional-responsibility disclaimer — no export
+> without a complete chain. Compare tab contrasts site-specific vs published
+> IDF with Δ%. Pipeline: M1 acquisition → M2 QA/QC (interval-corrected AMS)
+> → M3 PFA/IDF (WSC-mirrored engine, seeded bootstrap) → M4 report.
+> Phase 2 (PMP, design storms, wind/wave, freeboard, scoping) follows.
 
 ---
 

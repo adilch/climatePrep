@@ -6,6 +6,7 @@ pydantic==2.13.4
 numpy==2.4.6
 scipy==1.17.1
 lmoments3==1.0.8
+matplotlib==3.11.0
 
 # Editable install of the numerical core package.
 -e ../packages/core-engine
