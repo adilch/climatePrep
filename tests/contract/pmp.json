@@ -151,6 +151,6 @@
       }
     ],
     "digitizationNotice": "Km, outlier/sample-size adjustments and ARF use digitized WMO-1045 figures anchored to the manual's Table 4.1 worked example; values between anchors are approximate. Verify figure readings for production use, or supply overrides \u2014 every factor applied is listed in `steps`.",
-    "engineVersion": "0.3.0"
+    "engineVersion": "0.4.0"
   }
 }

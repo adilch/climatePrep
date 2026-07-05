@@ -12,10 +12,16 @@ import {
   PdsResponse,
   PfaRequest,
   PfaResponse,
+  FetchWaveRequest,
+  FetchWaveResponse,
+  FreeboardRequest,
+  FreeboardResponse,
   PmpRequest,
   PmpResponse,
   TrendRequest,
   TrendResponse,
+  WindRequest,
+  WindResponse,
 } from "@climateprep/core-ts";
 
 /**
@@ -99,6 +105,44 @@ describe("Zod ↔ pydantic contract parity", () => {
       expect(res.data.steps.length).toBeGreaterThanOrEqual(8); // every factor logged
       expect(res.data.digitizationNotice).toContain("WMO-1045");
       expect(res.data.dad).not.toBeNull();
+    }
+  });
+
+  it("wind fixture validates", () => {
+    const f = fixture("wind.json");
+    expect(WindRequest.safeParse(f.request).success).toBe(true);
+    const res = WindResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      expect(res.data.quantiles.length).toBe(4);
+      expect(res.data.rose).not.toBeNull();
+      // speedMs must be km/h ÷ 3.6
+      const q = res.data.quantiles[0];
+      expect(q.speedMs).toBeCloseTo(q.speedKmh / 3.6, 1);
+    }
+  });
+
+  it("fetch-wave fixture validates", () => {
+    const f = fixture("fetch-wave.json");
+    expect(FetchWaveRequest.safeParse(f.request).success).toBe(true);
+    const res = FetchWaveResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      expect(res.data.scan).not.toBeNull();
+      expect((res.data.fetch as { radials: unknown[] }).radials).toHaveLength(15);
+    }
+  });
+
+  it("freeboard fixture validates", () => {
+    const f = fixture("freeboard.json");
+    expect(FreeboardRequest.safeParse(f.request).success).toBe(true);
+    const res = FreeboardResponse.safeParse(f.response);
+    expect(res.success).toBe(true);
+    if (res.success) {
+      const d = res.data;
+      // total = runup + setup + Σ allowances (CDA component table)
+      const allowSum = Object.values(d.allowancesM).reduce((a, b) => a + b, 0);
+      expect(d.totalFreeboardM).toBeCloseTo(d.runupM + d.setupM + allowSum, 2);
     }
   });
 

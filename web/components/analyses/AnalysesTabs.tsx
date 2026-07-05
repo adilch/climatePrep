@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PfaTab } from "@/components/pfa/PfaTab";
 import { PmpPanel } from "@/components/pmp/PmpPanel";
 import { StormPanel } from "@/components/pmp/StormPanel";
+import { WindFreeboardPanel } from "@/components/wind/WindFreeboardPanel";
 import { cn } from "@/lib/utils";
 
 /** Analyses module sub-tabs (spec §2.3): each independently runnable. */
@@ -12,6 +13,7 @@ const MODULES = [
   { key: "pfa", label: "PFA / IDF" },
   { key: "pmp", label: "PMP" },
   { key: "storms", label: "Design storms" },
+  { key: "wind", label: "Wind & freeboard" },
 ] as const;
 type ModuleKey = (typeof MODULES)[number]["key"];
 
@@ -41,6 +43,7 @@ export function AnalysesTabs({ projectId }: { projectId: string }) {
       {module === "pfa" && <PfaTab projectId={projectId} />}
       {module === "pmp" && <PmpPanel projectId={projectId} />}
       {module === "storms" && <StormPanel projectId={projectId} />}
+      {module === "wind" && <WindFreeboardPanel projectId={projectId} />}
     </div>
   );
 }

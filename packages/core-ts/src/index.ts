@@ -6,6 +6,7 @@ export * from "./qc";
 export * from "./pfa";
 export * from "./pmp";
 export * from "./storms";
+export * from "./wind";
 
 /**
  * Shared domain enums used by both the Drizzle schema and the UI/forms.

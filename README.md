@@ -11,7 +11,19 @@ numerical core mirrors the WSC flood-frequency engine
 ([adilch/WSCprep](https://github.com/adilch/WSCprep)) so the two can later merge
 with zero behavioural drift.
 
-> **Status: M5 (PMP + design storms) complete — Phase 2 underway.**
+> **Status: M6 (wind, wave & freeboard) complete.** Engine 0.4.0 adds
+> extreme wind (Gumbel on annual-max hourly wind or daily gust, via the same
+> shared frequency core as PFA), a 16-sector wind rose, overland→overwater
+> conversion (SPM R_L curve, overridable), **Saville effective fetch** from
+> a reservoir polygon drawn on the map (15 radials at ±42°, golden-tested on
+> closed-form circle + hand-computed rectangle geometries), SMB/Bretschneider
+> (deep + depth-limited) and SPM-84 wave hindcasting, Zuider Zee wind setup,
+> Hunt + TAW 2002 runup with riprap roughness presets, a directional scan
+> that selects the governing direction, and the CDA-aligned freeboard
+> component table (runup + setup + analyst allowances, every input echoed).
+> All formula implementations hand-verified in golden tests.
+>
+> Earlier — **M5**:
 > Engine 0.3.0 adds **Hershfield statistical PMP** (WMO-1045 Chapter 4) with
 > the full adjustment chain — outlier (Figs 4.2/4.3), sample size (Fig 4.4),
 > Km(mean, duration) (Fig 4.1), fixed→true interval (Fig 4.5/Weiss), and

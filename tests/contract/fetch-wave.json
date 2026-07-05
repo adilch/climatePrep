@@ -1,0 +1,233 @@
+{
+  "request": {
+    "siteLat": 51.0,
+    "siteLon": -114.75,
+    "polygonLonLat": [
+      [
+        -114.75,
+        51.018
+      ],
+      [
+        -114.607,
+        51.018
+      ],
+      [
+        -114.607,
+        50.982
+      ],
+      [
+        -114.75,
+        50.982
+      ]
+    ],
+    "windTowardDeg": 90.0,
+    "uLandMs": 20.0,
+    "avgDepthM": 10.0,
+    "waveMethod": "smb",
+    "directionalScan": true
+  },
+  "response": {
+    "fetch": {
+      "directionDeg": 90.0,
+      "effectiveFetchKm": 6.0713,
+      "centralFetchKm": 10.0068,
+      "radials": [
+        {
+          "angleDeg": -42.0,
+          "fetchKm": 2.9912,
+          "weight": 0.5523
+        },
+        {
+          "angleDeg": -36.0,
+          "fetchKm": 3.4052,
+          "weight": 0.6545
+        },
+        {
+          "angleDeg": -30.0,
+          "fetchKm": 4.003,
+          "weight": 0.75
+        },
+        {
+          "angleDeg": -24.0,
+          "fetchKm": 4.9209,
+          "weight": 0.8346
+        },
+        {
+          "angleDeg": -18.0,
+          "fetchKm": 6.477,
+          "weight": 0.9045
+        },
+        {
+          "angleDeg": -12.0,
+          "fetchKm": 9.6267,
+          "weight": 0.9568
+        },
+        {
+          "angleDeg": -6.0,
+          "fetchKm": 10.0619,
+          "weight": 0.9891
+        },
+        {
+          "angleDeg": 0.0,
+          "fetchKm": 10.0068,
+          "weight": 1.0
+        },
+        {
+          "angleDeg": 6.0,
+          "fetchKm": 10.0619,
+          "weight": 0.9891
+        },
+        {
+          "angleDeg": 12.0,
+          "fetchKm": 9.6267,
+          "weight": 0.9568
+        },
+        {
+          "angleDeg": 18.0,
+          "fetchKm": 6.477,
+          "weight": 0.9045
+        },
+        {
+          "angleDeg": 24.0,
+          "fetchKm": 4.9209,
+          "weight": 0.8346
+        },
+        {
+          "angleDeg": 30.0,
+          "fetchKm": 4.003,
+          "weight": 0.75
+        },
+        {
+          "angleDeg": 36.0,
+          "fetchKm": 3.4052,
+          "weight": 0.6545
+        },
+        {
+          "angleDeg": 42.0,
+          "fetchKm": 2.9912,
+          "weight": 0.5523
+        }
+      ]
+    },
+    "wave": {
+      "method": "smb",
+      "uMs": 19.677,
+      "fetchKm": 6.0713,
+      "depthM": 10.0,
+      "hsM": 1.052,
+      "tS": 3.686,
+      "fullyDeveloped": false,
+      "minDurationHr": null,
+      "wavelengthDeepM": 21.2
+    },
+    "uWaterMs": 19.677,
+    "rl": 0.984,
+    "scan": {
+      "rows": [
+        {
+          "directionDeg": 0.0,
+          "effectiveFetchKm": 1.0748,
+          "hsM": 0.546,
+          "tS": 2.539
+        },
+        {
+          "directionDeg": 22.5,
+          "effectiveFetchKm": 1.8444,
+          "hsM": 0.677,
+          "tS": 2.865
+        },
+        {
+          "directionDeg": 45.0,
+          "effectiveFetchKm": 3.6078,
+          "hsM": 0.873,
+          "tS": 3.312
+        },
+        {
+          "directionDeg": 67.5,
+          "effectiveFetchKm": 5.4132,
+          "hsM": 1.011,
+          "tS": 3.601
+        },
+        {
+          "directionDeg": 90.0,
+          "effectiveFetchKm": 6.0713,
+          "hsM": 1.052,
+          "tS": 3.686
+        },
+        {
+          "directionDeg": 112.5,
+          "effectiveFetchKm": 5.4132,
+          "hsM": 1.011,
+          "tS": 3.601
+        },
+        {
+          "directionDeg": 135.0,
+          "effectiveFetchKm": 3.6078,
+          "hsM": 0.873,
+          "tS": 3.312
+        },
+        {
+          "directionDeg": 157.5,
+          "effectiveFetchKm": 1.8444,
+          "hsM": 0.677,
+          "tS": 2.865
+        },
+        {
+          "directionDeg": 180.0,
+          "effectiveFetchKm": 1.0748,
+          "hsM": 0.546,
+          "tS": 2.539
+        },
+        {
+          "directionDeg": 202.5,
+          "effectiveFetchKm": 0.4222,
+          "hsM": 0.374,
+          "tS": 2.045
+        },
+        {
+          "directionDeg": 225.0,
+          "effectiveFetchKm": 0.0,
+          "hsM": 0.0,
+          "tS": 0.0
+        },
+        {
+          "directionDeg": 247.5,
+          "effectiveFetchKm": 0.0,
+          "hsM": 0.0,
+          "tS": 0.0
+        },
+        {
+          "directionDeg": 270.0,
+          "effectiveFetchKm": 0.0,
+          "hsM": 0.0,
+          "tS": 0.0
+        },
+        {
+          "directionDeg": 292.5,
+          "effectiveFetchKm": 0.0,
+          "hsM": 0.0,
+          "tS": 0.0
+        },
+        {
+          "directionDeg": 315.0,
+          "effectiveFetchKm": 0.0,
+          "hsM": 0.0,
+          "tS": 0.0
+        },
+        {
+          "directionDeg": 337.5,
+          "effectiveFetchKm": 0.4222,
+          "hsM": 0.374,
+          "tS": 2.045
+        }
+      ],
+      "critical": {
+        "directionDeg": 90.0,
+        "effectiveFetchKm": 6.0713,
+        "hsM": 1.052,
+        "tS": 3.686
+      }
+    },
+    "engineVersion": "0.4.0"
+  }
+}

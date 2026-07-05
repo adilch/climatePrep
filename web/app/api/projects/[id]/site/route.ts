@@ -10,6 +10,12 @@ const SiteInput = z.object({
   latitude: z.number().min(41).max(84),
   longitude: z.number().min(-141).max(-52),
   elevationM: z.number().nullable().optional(),
+  /** Reservoir outline, [[lon,lat],...] (spec F3). */
+  reservoirPolygon: z
+    .array(z.tuple([z.number(), z.number()]))
+    .min(3)
+    .nullable()
+    .optional(),
 });
 
 async function ownedProject(projectId: string, userId: string) {
@@ -70,6 +76,10 @@ export async function PUT(req: Request, ctx: Ctx) {
     latitude: parsed.data.latitude,
     longitude: parsed.data.longitude,
     elevationM: parsed.data.elevationM ?? null,
+    // undefined = leave unchanged; null = clear; array = set
+    ...(parsed.data.reservoirPolygon !== undefined
+      ? { reservoirPolygon: parsed.data.reservoirPolygon }
+      : {}),
     updatedAt: new Date(),
   };
 

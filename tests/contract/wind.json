@@ -1,0 +1,413 @@
+{
+  "request": {
+    "series": [
+      {
+        "year": 1990,
+        "value": 72
+      },
+      {
+        "year": 1991,
+        "value": 65
+      },
+      {
+        "year": 1992,
+        "value": 81
+      },
+      {
+        "year": 1993,
+        "value": 70
+      },
+      {
+        "year": 1994,
+        "value": 90
+      },
+      {
+        "year": 1995,
+        "value": 62
+      },
+      {
+        "year": 1996,
+        "value": 77
+      },
+      {
+        "year": 1997,
+        "value": 85
+      },
+      {
+        "year": 1998,
+        "value": 68
+      },
+      {
+        "year": 1999,
+        "value": 74
+      },
+      {
+        "year": 2000,
+        "value": 79
+      },
+      {
+        "year": 2001,
+        "value": 88
+      },
+      {
+        "year": 2002,
+        "value": 66
+      },
+      {
+        "year": 2003,
+        "value": 71
+      },
+      {
+        "year": 2004,
+        "value": 83
+      },
+      {
+        "year": 2005,
+        "value": 69
+      },
+      {
+        "year": 2006,
+        "value": 76
+      },
+      {
+        "year": 2007,
+        "value": 92
+      },
+      {
+        "year": 2008,
+        "value": 64
+      },
+      {
+        "year": 2009,
+        "value": 78
+      }
+    ],
+    "label": "annual max hourly wind (fixture)",
+    "returnPeriods": [
+      2,
+      10,
+      100,
+      1000
+    ],
+    "bootstrapN": 200,
+    "seed": 42,
+    "roseSpeedsKmh": [
+      10,
+      25,
+      40,
+      15,
+      30,
+      null,
+      22,
+      18
+    ],
+    "roseDirectionsDeg": [
+      270,
+      265,
+      280,
+      90,
+      275,
+      180,
+      300,
+      45
+    ]
+  },
+  "response": {
+    "label": "annual max hourly wind (fixture)",
+    "n": 20,
+    "gumbelParams": {
+      "loc": 71.134657,
+      "scale": 7.562759
+    },
+    "quantiles": [
+      {
+        "returnPeriod": 2.0,
+        "speedKmh": 73.907,
+        "speedMs": 20.53,
+        "ciLowerKmh": 71.238,
+        "ciUpperKmh": 76.904
+      },
+      {
+        "returnPeriod": 10.0,
+        "speedKmh": 88.154,
+        "speedMs": 24.49,
+        "ciLowerKmh": 82.839,
+        "ciUpperKmh": 91.418
+      },
+      {
+        "returnPeriod": 100.0,
+        "speedKmh": 105.924,
+        "speedMs": 29.42,
+        "ciLowerKmh": 97.28,
+        "ciUpperKmh": 111.908
+      },
+      {
+        "returnPeriod": 1000.0,
+        "speedKmh": 123.373,
+        "speedMs": 34.27,
+        "ciLowerKmh": 110.43,
+        "ciUpperKmh": 131.562
+      }
+    ],
+    "rose": {
+      "nObservations": 7,
+      "calmPct": 12.5,
+      "speedBinsKmh": [
+        0.0,
+        10.0,
+        20.0,
+        30.0,
+        40.0,
+        60.0
+      ],
+      "sectors": [
+        {
+          "sector": "N",
+          "centerDeg": 0.0,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "NNE",
+          "centerDeg": 22.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "NE",
+          "centerDeg": 45.0,
+          "frequencyPct": 14.29,
+          "meanKmh": 18.0,
+          "maxKmh": 18.0
+        },
+        {
+          "sector": "ENE",
+          "centerDeg": 67.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "E",
+          "centerDeg": 90.0,
+          "frequencyPct": 14.29,
+          "meanKmh": 15.0,
+          "maxKmh": 15.0
+        },
+        {
+          "sector": "ESE",
+          "centerDeg": 112.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "SE",
+          "centerDeg": 135.0,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "SSE",
+          "centerDeg": 157.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "S",
+          "centerDeg": 180.0,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "SSW",
+          "centerDeg": 202.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "SW",
+          "centerDeg": 225.0,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "WSW",
+          "centerDeg": 247.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "W",
+          "centerDeg": 270.0,
+          "frequencyPct": 57.14,
+          "meanKmh": 26.2,
+          "maxKmh": 40.0
+        },
+        {
+          "sector": "WNW",
+          "centerDeg": 292.5,
+          "frequencyPct": 14.29,
+          "meanKmh": 22.0,
+          "maxKmh": 22.0
+        },
+        {
+          "sector": "NW",
+          "centerDeg": 315.0,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        },
+        {
+          "sector": "NNW",
+          "centerDeg": 337.5,
+          "frequencyPct": 0.0,
+          "meanKmh": 0.0,
+          "maxKmh": 0.0
+        }
+      ],
+      "frequencyMatrixPct": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          14.286,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          14.286,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          14.286,
+          14.286,
+          14.286,
+          14.286,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          14.286,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "prevailingSector": "W",
+      "strongestSector": "W"
+    },
+    "seed": 42,
+    "engineVersion": "0.4.0"
+  }
+}

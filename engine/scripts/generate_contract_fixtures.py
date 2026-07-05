@@ -123,6 +123,54 @@ FIXTURES = {
             },
         },
     ),
+    "wind": (
+        "/api/engine/wind",
+        {
+            "series": [
+                {"year": 1990 + i, "value": v}
+                for i, v in enumerate(
+                    [72, 65, 81, 70, 90, 62, 77, 85, 68, 74, 79, 88, 66, 71, 83,
+                     69, 76, 92, 64, 78]
+                )
+            ],
+            "label": "annual max hourly wind (fixture)",
+            "returnPeriods": [2, 10, 100, 1000],
+            "bootstrapN": 200,
+            "seed": 42,
+            "roseSpeedsKmh": [10, 25, 40, 15, 30, None, 22, 18],
+            "roseDirectionsDeg": [270, 265, 280, 90, 275, 180, 300, 45],
+        },
+    ),
+    "fetch-wave": (
+        "/api/engine/fetch-wave",
+        {
+            "siteLat": 51.0,
+            "siteLon": -114.75,
+            # ~10 km × 4 km reservoir east of the site
+            "polygonLonLat": [
+                [-114.75, 51.018], [-114.607, 51.018],
+                [-114.607, 50.982], [-114.75, 50.982],
+            ],
+            "windTowardDeg": 90.0,
+            "uLandMs": 20.0,
+            "avgDepthM": 10.0,
+            "waveMethod": "smb",
+            "directionalScan": True,
+        },
+    ),
+    "freeboard": (
+        "/api/engine/freeboard",
+        {
+            "uLandMs": 20.0,
+            "fetchKm": 5.0,
+            "avgDepthM": 10.0,
+            "slopeVPerH": 0.333333,
+            "gammaF": 0.55,
+            "waveMethod": "smb",
+            "runupMethod": "taw2002",
+            "allowancesM": {"settlement": 0.3, "seiche": 0.15},
+        },
+    ),
 }
 
 

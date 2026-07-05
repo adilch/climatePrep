@@ -1,0 +1,40 @@
+{
+  "request": {
+    "uLandMs": 20.0,
+    "fetchKm": 5.0,
+    "avgDepthM": 10.0,
+    "slopeVPerH": 0.333333,
+    "gammaF": 0.55,
+    "waveMethod": "smb",
+    "runupMethod": "taw2002",
+    "allowancesM": {
+      "settlement": 0.3,
+      "seiche": 0.15
+    }
+  },
+  "response": {
+    "hsM": 0.983,
+    "tS": 3.544,
+    "runupM": 1.328,
+    "setupM": 0.0397,
+    "allowancesM": {
+      "settlement": 0.3,
+      "seiche": 0.15
+    },
+    "totalFreeboardM": 1.818,
+    "inputs": {
+      "uLandMs": 20.0,
+      "uWaterMs": 19.677,
+      "rl": 0.984,
+      "fetchKm": 5.0,
+      "avgDepthM": 10.0,
+      "slopeVPerH": 0.333333,
+      "gammaF": 0.55,
+      "waveMethod": "smb",
+      "runupMethod": "taw2002",
+      "xi": 1.489,
+      "fullyDeveloped": false
+    },
+    "engineVersion": "0.4.0"
+  }
+}

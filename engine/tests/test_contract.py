@@ -20,6 +20,14 @@ from app.pmp_models import (
     PmpRequest,
     PmpResponse,
 )
+from app.wind_models import (
+    FetchWaveRequest,
+    FetchWaveResponse,
+    FreeboardRequest,
+    FreeboardResponse,
+    WindRequest,
+    WindResponse,
+)
 from app.qc_models import (
     AggregateRequest,
     AggregateResponse,
@@ -39,6 +47,9 @@ CASES = [
     ("pfa-pds.json", PdsRequest, PdsResponse),
     ("pmp.json", PmpRequest, PmpResponse),
     ("design-storm.json", DesignStormRequest, DesignStormResponse),
+    ("wind.json", WindRequest, WindResponse),
+    ("fetch-wave.json", FetchWaveRequest, FetchWaveResponse),
+    ("freeboard.json", FreeboardRequest, FreeboardResponse),
 ]
 
 

@@ -8,10 +8,11 @@ the WSC implementation (github.com/adilch/WSCprep, ffa-service/app/ffa.py).
 
 M2 added the QC numerics (trend/homogeneity, aggregation, infilling).
 M3 added the frequency-analysis core (WSC mirror), PDS extraction, and IDF.
-M5 adds Hershfield statistical PMP (WMO-1045 Ch. 4) and design storms.
+M5 added Hershfield statistical PMP (WMO-1045 Ch. 4) and design storms.
+M6 adds wind extremes/rose, Saville fetch, wave prediction and freeboard.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 
 def engine_version() -> str:
