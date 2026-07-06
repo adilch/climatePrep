@@ -6,6 +6,7 @@ import { Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 
 /**
  * QA/QC tab (spec B1–B3, M2): trend/homogeneity flags with AHCCD suggestion,
@@ -131,7 +132,10 @@ function TrendPanel({ projectId, pulls }: { projectId: string; pulls: PullRow[] 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Homogeneity &amp; trend (Pettitt · SNHT · Mann-Kendall + Sen)</CardTitle>
+        <CardTitle>
+          Homogeneity &amp; trend (Pettitt · SNHT · Mann-Kendall + Sen)
+          <InfoButton infoKey="qc.trend" />
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-end gap-3">
@@ -301,7 +305,10 @@ function AggregatePanel({ projectId, pulls }: { projectId: string; pulls: PullRo
   return (
     <Card>
       <CardHeader>
-        <CardTitle>AMS aggregation (24/48/72 h) + fixed→true interval correction</CardTitle>
+        <CardTitle>
+          AMS aggregation (24/48/72 h) + fixed→true interval correction
+          <InfoButton infoKey="qc.aggregate" />
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-end gap-3">
@@ -449,7 +456,10 @@ function InfillPanel({ projectId, pulls }: { projectId: string; pulls: PullRow[]
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Missing-data infilling</CardTitle>
+        <CardTitle>
+          Missing-data infilling
+          <InfoButton infoKey="qc.infill" />
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {pulls.length < 2 ? (

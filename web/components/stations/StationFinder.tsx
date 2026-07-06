@@ -8,6 +8,7 @@ import { AvailabilityPanel } from "@/components/stations/AvailabilityPanel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 
 /**
  * Station finder (spec A1/A4): click the dam site → ranked nearby stations by
@@ -135,7 +136,10 @@ export function StationFinder({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Site location</CardTitle>
+          <CardTitle>
+            Site location
+            <InfoButton infoKey="stations.site" />
+          </CardTitle>
           {site && (
             <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <MapPin className="inline h-3 w-3" />
@@ -195,7 +199,10 @@ export function StationFinder({ projectId }: { projectId: string }) {
       {selected.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Selected stations ({selected.length})</CardTitle>
+            <CardTitle>
+              Selected stations ({selected.length})
+              <InfoButton infoKey="stations.selected" />
+            </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {selected.map((s) => (
@@ -226,6 +233,7 @@ export function StationFinder({ projectId }: { projectId: string }) {
           <CardTitle>
             Candidate stations{" "}
             {site ? `(${candidates.length})` : "— set the site first"}
+            <InfoButton infoKey="stations.candidates" />
           </CardTitle>
         </CardHeader>
         <CardContent>

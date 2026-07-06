@@ -6,6 +6,7 @@ import { Download, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 
 /**
  * Report builder (spec K1–K6): pick the PFA analysis, choose sections and
@@ -81,7 +82,10 @@ export function ReportTab({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader>
-          <CardTitle>Generate report</CardTitle>
+          <CardTitle>
+            Generate report
+            <InfoButton infoKey="report.generate" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {analyses.length === 0 ? (
@@ -195,7 +199,10 @@ export function ReportTab({ projectId }: { projectId: string }) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Generated documents</CardTitle>
+          <CardTitle>
+            Generated documents
+            <InfoButton infoKey="report.documents" />
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {documents.length === 0 ? (

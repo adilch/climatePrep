@@ -7,6 +7,7 @@ import type { DesignStormResponse } from "@climateprep/core-ts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 import { BASE_LAYOUT, OKABE_ITO, PlotlyLazy } from "@/components/pfa/PlotlyLazy";
 
 /** Design-storm panel (spec E, M5): pattern → hyetograph → forcing export. */
@@ -89,7 +90,10 @@ export function StormPanel({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader>
-          <CardTitle>Design storm generation</CardTitle>
+          <CardTitle>
+            Design storm generation
+            <InfoButton infoKey="storm.controls" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex flex-wrap items-end gap-3">
@@ -238,7 +242,10 @@ function StormResults({ projectId, row }: { projectId: string; row: StormRow }) 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{row.analysis.name}</CardTitle>
+        <CardTitle>
+          {row.analysis.name}
+          <InfoButton infoKey="storm.results" />
+        </CardTitle>
         <div className="flex gap-2">
           <a
             href={`/api/projects/${projectId}/storms/${row.analysis.id}/forcing?format=swmm`}

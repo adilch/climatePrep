@@ -7,6 +7,7 @@ import type { PmpResponse } from "@climateprep/core-ts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 
 /**
  * Hershfield PMP panel (spec D, M5). Every adjustment factor is displayed in
@@ -88,7 +89,10 @@ export function PmpPanel({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader>
-          <CardTitle>Statistical PMP — Hershfield (WMO-1045 Ch. 4)</CardTitle>
+          <CardTitle>
+            Statistical PMP — Hershfield (WMO-1045 Ch. 4)
+            <InfoButton infoKey="pmp.controls" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {(sources.data?.analyses.length ?? 0) === 0 ? (
@@ -203,6 +207,7 @@ function PmpResults({ row }: { row: PmpAnalysisRow }) {
             <span className="font-mono text-xs text-muted-foreground">
               {row.station?.climateId}
             </span>
+            <InfoButton infoKey="pmp.results" />
           </CardTitle>
           <div className="flex gap-2">
             <Badge variant="accent" className="text-sm">

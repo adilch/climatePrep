@@ -12,6 +12,7 @@ import type {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 import { BASE_LAYOUT, OKABE_ITO, PlotlyLazy } from "@/components/pfa/PlotlyLazy";
 import type { FetchRay, ReservoirMapProps } from "./ReservoirMap";
 
@@ -170,7 +171,10 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
       {/* ------------------------- wind extremes -------------------------- */}
       <Card>
         <CardHeader>
-          <CardTitle>Extreme wind (Gumbel on annual maxima)</CardTitle>
+          <CardTitle>
+            Extreme wind (Gumbel on annual maxima)
+            <InfoButton infoKey="wind.extremes" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex flex-wrap items-end gap-3">
@@ -224,7 +228,10 @@ export function WindFreeboardPanel({ projectId }: { projectId: string }) {
       {/* ------------------------ reservoir & fetch ----------------------- */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Reservoir polygon &amp; freeboard</CardTitle>
+          <CardTitle>
+            Reservoir polygon &amp; freeboard
+            <InfoButton infoKey="wind.freeboard" />
+          </CardTitle>
           <div className="flex gap-2">
             {!drawing ? (
               <>

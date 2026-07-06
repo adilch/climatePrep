@@ -7,6 +7,7 @@ import type { PfaResponse } from "@climateprep/core-ts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 import { FrequencyPlot } from "./FrequencyPlot";
 import { IdfChart, type PublishedIdfChart } from "./IdfChart";
 import { LmrDiagram } from "./LmrDiagram";
@@ -111,7 +112,10 @@ export function PfaTab({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader>
-          <CardTitle>Precipitation frequency analysis / IDF</CardTitle>
+          <CardTitle>
+            Precipitation frequency analysis / IDF
+            <InfoButton infoKey="pfa.controls" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {sources.length === 0 ? (
@@ -282,6 +286,7 @@ function PfaResults({
             <span className="font-mono text-xs text-muted-foreground">
               {row.station?.climateId}
             </span>
+            <InfoButton infoKey="pfa.results" />
           </CardTitle>
           <div className="flex gap-1">
             {results.durations.map((d, i) => (
@@ -368,7 +373,10 @@ function PfaResults({
 
       <Card>
         <CardHeader>
-          <CardTitle>IDF — site-specific vs ECCC published</CardTitle>
+          <CardTitle>
+            IDF — site-specific vs ECCC published
+            <InfoButton infoKey="pfa.idf" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <IdfChart site={results.idf} published={published} />
@@ -392,7 +400,10 @@ function PfaResults({
 
       <Card>
         <CardHeader>
-          <CardTitle>L-moment ratio diagram</CardTitle>
+          <CardTitle>
+            L-moment ratio diagram
+            <InfoButton infoKey="pfa.lmr" />
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <LmrDiagram

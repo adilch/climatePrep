@@ -6,6 +6,7 @@ import { Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 
 /**
  * Data acquisition tab (spec A2/A5): choose station + collection + period →
@@ -112,7 +113,10 @@ export function DataAcquisition({ projectId }: { projectId: string }) {
     <div className="space-y-5">
       <Card>
         <CardHeader>
-          <CardTitle>Pull data</CardTitle>
+          <CardTitle>
+            Pull data
+            <InfoButton infoKey="data.pull" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {stations.length === 0 ? (
@@ -217,7 +221,10 @@ export function DataAcquisition({ projectId }: { projectId: string }) {
       {preview && preview.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Raw preview (first {preview.length} rows)</CardTitle>
+            <CardTitle>
+              Raw preview (first {preview.length} rows)
+              <InfoButton infoKey="data.preview" />
+            </CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto">
             <PreviewTable rows={preview} />
@@ -227,7 +234,10 @@ export function DataAcquisition({ projectId }: { projectId: string }) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Pull history (provenance)</CardTitle>
+          <CardTitle>
+            Pull history (provenance)
+            <InfoButton infoKey="data.history" />
+          </CardTitle>
         </CardHeader>
         <CardContent className="overflow-x-auto">
           {(pullsQuery.data?.pulls ?? []).length === 0 ? (

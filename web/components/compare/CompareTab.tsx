@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { PfaResponse } from "@climateprep/core-ts";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InfoButton } from "@/components/ui/InfoButton";
 import { IdfChart, type PublishedIdfChart } from "@/components/pfa/IdfChart";
 
 /**
@@ -97,6 +98,7 @@ export function CompareTab({ projectId }: { projectId: string }) {
             <span className="font-mono text-xs text-muted-foreground">
               {latest.station?.climateId}
             </span>
+            <InfoButton infoKey="compare.idf" />
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
